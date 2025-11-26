@@ -1,0 +1,90 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'com.yourcompany.ads.admob'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 34
+
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    // Google Mobile Ads SDK (AdMob)
+    implementation 'com.google.android.gms:play-services-ads:22.5.0'
+
+    // AndroidX
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+// Publishing configuration
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = GROUP
+                artifactId = 'admob-adapter'
+                version = VERSION_NAME
+
+                pom {
+                    name = 'AdMob Mediation Adapter'
+                    description = 'Custom AdMob mediation adapter for your ad network'
+                    url = 'https://github.com/yourcompany/admob-adapter'
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'yourcompany'
+                            name = 'Your Company'
+                            email = 'support@yourcompany.com'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:git://github.com/yourcompany/admob-adapter.git'
+                        developerConnection = 'scm:git:ssh://github.com/yourcompany/admob-adapter.git'
+                        url = 'https://github.com/yourcompany/admob-adapter'
+                    }
+                }
+            }
+        }
+    }
+}
